@@ -13,7 +13,7 @@ mainApp.config(['$routeProvider',
 // For listing pipelines
 mainApp.controller('pipelineCtrl', function($scope, $http,$rootScope) {
   $scope.get_pipelines = function(){
-  	$http.get("services/get_pipeline.php?agent_id=3887")
+  	$http.get("views/services/get_pipeline.php?agent_id=3887")
     .then(function(response) {
         $scope.pipelines = response.data;
         //$scope.activeMenu = $scope.pipelines[0];
@@ -40,7 +40,7 @@ mainApp.controller('addPipelintCtrl', function($scope,$http) {
     $scope.savePipeline = function(){  
     	$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
            $http.post(  
-                "services/insert_pipeline.php",  
+                "views/services/insert_pipeline.php",  
                 'name='+$scope.pipelineName+'&agent_id='+$scope.agentID
            ).then(function(data){  
               $scope.$emit('reloadPipelines');
@@ -60,7 +60,6 @@ mainApp.controller('pipelineColCtrl', function($scope, $http,$routeParams,$rootS
       $scope.ShowListView = false;
       $scope.ShowColView = true;
     }
-
 
     $scope.pipline_id = $routeParams.pipelineid;
     var myEl = angular.element( document.querySelector( '.set_pipeline_col_id' ) );
@@ -134,7 +133,7 @@ mainApp.controller('pipelineColSetting', function($scope, $http,$routeParams ,$r
   $scope.get_pipeline_cols = function () {
     var myEl = angular.element( document.querySelector( '.set_pipeline_col_id' ) );
     var x = myEl.attr('id');
-    $http.get("services/get_pipeline_col.php?pipeline_id="+x)
+    $http.get("views/services/get_pipeline_col.php?pipeline_id="+x)
     .then(function(response) {
       $scope.pipline_name =  response.data.pipeline_name;
       $scope.pipeline_setting_cols = response.data.data;
@@ -173,7 +172,7 @@ mainApp.controller('pipelineColSetting', function($scope, $http,$routeParams ,$r
     
     $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
     color_code =  $('#p_pipline_color_'+x).spectrum('get').toHexString();
-    $http.post( "services/edit_save_pip_col.php",  
+    $http.post( "views/services/edit_save_pip_col.php",  
                 'name='+el_col_name.val()+'&pipline_col_id='+el_pipline_id.val()+'&pipeline_color='+color_code+"&pipline_id="+pipe_id)
     .then(function(response) {
     $scope.get_pipeline_cols(); 
@@ -204,7 +203,7 @@ mainApp.controller('pipelineColSetting', function($scope, $http,$routeParams ,$r
     }
     
     $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-    $http.post( "services/edit_save_pip_col_title.php",  
+    $http.post( "views/services/edit_save_pip_col_title.php",  
                 'name='+el_pipline_title.val()+'&id='+pipe_id)
     .then(function(response) {
       $scope.showPipelineTitleForm = true;
@@ -225,7 +224,7 @@ mainApp.controller('pipelineColSetting', function($scope, $http,$routeParams ,$r
     var pipe_id = myEl.attr('id');
         $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
            $http.post(  
-                "services/edit_save_pip_col.php",  
+                "views/services/edit_save_pip_col.php",  
                 'name='+$scope.pipelineColName+'&pipeline_color='+color_code+"&pipline_id="+pipe_id)
            .then(function(data){
           $scope.pipelineColName = '';
@@ -248,7 +247,7 @@ mainApp.controller('pipelineColSetting', function($scope, $http,$routeParams ,$r
         });
         $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
            $http.post(  
-                "services/sort_pipeline_col.php",  
+                "views/services/sort_pipeline_col.php",  
                 'col_id_array='+col_id_array)
            .then(function(data){
           $scope.get_pipeline_cols();  
